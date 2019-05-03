@@ -15,8 +15,10 @@
         <property name="width">200</property>
         <layout>
           <property name="column">0</property>
+          <property name="columnspan">2</property>
           <property name="propagate">True</property>
           <property name="row">2</property>
+          <property name="rowspan">2</property>
         </layout>
         <child>
           <object class="tk.Text" id="log_box">
@@ -30,10 +32,10 @@
             <property name="pady">9</property>
             <property name="relief">flat</property>
             <property name="selectborderwidth">0</property>
-            <property name="setgrid">false</property>
-            <property name="width">44</property>
+            <property name="width">100</property>
             <layout>
               <property name="column">0</property>
+              <property name="padx">15</property>
               <property name="propagate">True</property>
               <property name="row">1</property>
             </layout>
@@ -47,39 +49,6 @@
               <property name="propagate">True</property>
               <property name="row">1</property>
               <property name="sticky">n</property>
-            </layout>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="ttk.Labelframe" id="label_frame_pred_messages">
-        <property name="height">200</property>
-        <property name="text" translatable="yes">Predefined messages</property>
-        <property name="width">200</property>
-        <layout>
-          <property name="column">1</property>
-          <property name="propagate">True</property>
-          <property name="row">2</property>
-          <property name="sticky">n</property>
-        </layout>
-        <child>
-          <object class="tk.Listbox" id="predefined_messages">
-            <layout>
-              <property name="column">1</property>
-              <property name="propagate">True</property>
-              <property name="row">1</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="ttk.Button" id="button_predefined_message">
-            <property name="command">on_use_predefined_message_clicked</property>
-            <property name="text" translatable="yes">Use message</property>
-            <layout>
-              <property name="column">1</property>
-              <property name="propagate">True</property>
-              <property name="row">2</property>
             </layout>
           </object>
         </child>
@@ -166,8 +135,10 @@
         <property name="width">200</property>
         <layout>
           <property name="column">0</property>
+          <property name="columnspan">3</property>
           <property name="propagate">True</property>
           <property name="row">5</property>
+          <property name="sticky">w</property>
         </layout>
         <child>
           <object class="tk.Text" id="data_to_send">
@@ -177,7 +148,7 @@
             <property name="maxundo">1</property>
             <property name="selectborderwidth">1</property>
             <property name="tabstyle">wordprocessor</property>
-            <property name="width">51</property>
+            <property name="width">80</property>
             <layout>
               <property name="column">1</property>
               <property name="padx">15</property>
@@ -193,10 +164,45 @@
             <property name="text" translatable="yes">Send Data</property>
             <layout>
               <property name="column">1</property>
+              <property name="padx">15</property>
+              <property name="pady">15</property>
               <property name="propagate">True</property>
               <property name="row">2</property>
-              <property name="sticky">e</property>
+              <property name="sticky">w</property>
             </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Labelframe" id="label_frame_pred_messages">
+            <property name="height">200</property>
+            <property name="text" translatable="yes">Predefined messages</property>
+            <property name="width">200</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
+              <property name="sticky">n</property>
+            </layout>
+            <child>
+              <object class="tk.Listbox" id="predefined_messages">
+                <layout>
+                  <property name="column">1</property>
+                  <property name="propagate">True</property>
+                  <property name="row">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Button" id="button_predefined_message">
+                <property name="command">on_use_predefined_message_clicked</property>
+                <property name="text" translatable="yes">Use message</property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="propagate">True</property>
+                  <property name="row">2</property>
+                </layout>
+              </object>
+            </child>
           </object>
         </child>
       </object>

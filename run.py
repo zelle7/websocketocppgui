@@ -1,3 +1,4 @@
+import datetime
 import json
 from json import JSONDecodeError
 from threading import Thread
@@ -159,7 +160,8 @@ class Application(pygubu.TkApplication):
         :param message:
         :return:
         """
-        message_to_print = message
+        now = datetime.datetime.now()
+        message_to_print = '{} | {}'.format(now.isoformat(), message)
         if not message.endswith('\n'):
             message_to_print = '{}\n'.format(message)
         self.log_box.insert(tk.END, message_to_print)
