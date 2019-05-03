@@ -20,7 +20,7 @@ There is a Pipfile in the root of the project which contains all the necessary d
 * Use the header of the dropbox
 * Fix logging
 * Add menu with export buttons, settings etc ...
-* Add description to buld an standalone executable
+* Add description to buld an standalone executable `pyinstaller --onefile --noconsole --hidden-import tkinter run.py`
 #### UI 
 The ui is build with the ui builder `pygubu-designer`. To start the designer simply call `pygubu-designer`
 in your bash.
