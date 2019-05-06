@@ -220,12 +220,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     root = tk.Tk()
-    uidef = importlib.util.find_spec('uidef')
-    if not args.read_ui_file and not uidef:
-        print("No ui def files defined")
-        exit(1)
+    # uidef = importlib.util.find_spec('uidef')
+    # if not args.read_ui_file and not uidef:
+    #     print("No ui def files defined")
+    #     exit(1)
 
-    app = Application(root, uidef=uidef)
+    app = Application(root)
 
     logger.debug("Start application now")
     root.mainloop()
