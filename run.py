@@ -1,4 +1,6 @@
+import argparse
 import datetime
+import importlib
 import json
 from json import JSONDecodeError
 from threading import Thread
@@ -204,8 +206,26 @@ class Application(pygubu.TkApplication):
 
 
 websocket.enableTrace(True)
+
+
 if __name__ == '__main__':
+    # parse command line arguments
+    parser = argparse.ArgumentParser(description="Websocket OCPP GUI")
+    parser.add_argument("--uri", help="websocket server uri will be set to client if set")
+    parser.add_argument("--cafile", nargs="?", help="SSL CA file")
+    parser.add_argument("--certfile", nargs="?", help="SSL client certificate file")
+    parser.add_argument("--keyfile", nargs="?", help="SSL private key file")
+    parser.add_argument("--no-check-hostname", action="store_true", help="disable SSL certificate hostname check")
+    parser.add_argument("--read-ui-file", action="store_true", help="Reads the ui from a ")
+    args = parser.parse_args()
+
     root = tk.Tk()
-    app = Application(root)
-    logger.debug("start app now")
+    uidef = importlib.util.find_spec('uidef')
+    if not args.read_ui_file and not uidef:
+        print("No ui def files defined")
+        exit(1)
+
+    app = Application(root, uidef=uidef)
+
+    logger.debug("Start application now")
     root.mainloop()
