@@ -3,6 +3,7 @@ import json
 from json import JSONDecodeError
 from threading import Thread
 from tkinter import messagebox
+from pygubu.builder import ttkstdwidgets
 from typing import Optional
 
 from urls import validate_url, URLParseException

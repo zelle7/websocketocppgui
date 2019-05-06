@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d4e2c9560b287773a63451479b3fe33402058b3b82b41902b2c951db922f6bbf"
+            "sha256": "9b36183baaaecb6c85d415a81e40b8b5b3a6088dee78e33f59d57504e2793e7d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,13 @@
         ]
     },
     "default": {
+        "altgraph": {
+            "hashes": [
+                "sha256:d6814989f242b2b43025cba7161fc1b8fb487a62cd49c49245d6fd01c18ac997",
+                "sha256:ddf5320017147ba7b810198e0b6619bd7b5563aa034da388cea8546b877f9b0c"
+            ],
+            "version": "==0.16.1"
+        },
         "appdirs": {
             "hashes": [
                 "sha256:9e5896d1372858f8dd3344faf4e5014d21849c756c8d5701f78f8a103b372d92",
@@ -23,12 +30,39 @@
             ],
             "version": "==1.4.3"
         },
+        "future": {
+            "hashes": [
+                "sha256:5a2b777c73a284704bfdd5c303b02367612cc884d630e017d247c8209e2cda3c",
+                "sha256:67045236dcfd6816dc439556d009594abf643e5eb48992e36beac09c2ca659b8"
+            ],
+            "version": "==0.17.1"
+        },
+        "macholib": {
+            "hashes": [
+                "sha256:ac02d29898cf66f27510d8f39e9112ae00590adb4a48ec57b25028d6962b1ae1",
+                "sha256:c4180ffc6f909bf8db6cd81cff4b6f601d575568f4d5dee148c830e9851eb9db"
+            ],
+            "version": "==1.11"
+        },
+        "pefile": {
+            "hashes": [
+                "sha256:a5d6e8305c6b210849b47a6174ddf9c452b2888340b8177874b862ba6c207645"
+            ],
+            "version": "==2019.4.18"
+        },
         "pygubu": {
             "hashes": [
                 "sha256:3c4adb0f6253c7e2298136b187ecee49932e9db300460e981c8ffa474c96874f"
             ],
             "index": "pypi",
             "version": "==0.9.8.2"
+        },
+        "pyinstaller": {
+            "hashes": [
+                "sha256:a5a6e04a66abfcf8761e89a2ebad937919c6be33a7b8963e1a961b55cb35986b"
+            ],
+            "index": "pypi",
+            "version": "==3.4"
         },
         "six": {
             "hashes": [
