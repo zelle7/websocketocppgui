@@ -20,18 +20,23 @@ import logging
 import pygubu
 import websocket
 
-logger = logging.getLogger('root')
 logging.basicConfig(level=logging.DEBUG, format='%(relativeCreated)6d %(threadName)s %(message)s')
+logger = logging.getLogger('root')
+logger.addHandler(logging.StreamHandler())
 
 PREDEFINED_MESSAGE_MAP = {
     'Heartbeat': '[2, "uuid", "Heartbeat", {}]',
     'BootNotification': '[2, "uuid", "BootNotification", {"value":12}]',
+    'ClearCacheResponse': '[3, "<uuid>", {"status": "Accepted"]',
+    'MeterValue': '[2, "<uuid>", {"status": "Accepted"]',
+    'StartTransaction': '[2, "<uuid>", {"status": "Accepted"]',
 }
 
 
 class Application(pygubu.TkApplication):
+    ws_url: str
     ws_thread: Thread
-    wssurl: Optional[tk.Entry]
+    wss_url_input: Optional[tk.Entry]
     send_button: Optional[tk.Button]
     connect_button: Optional[tk.Button]
     connection_status: Optional[tk.Label]
@@ -41,10 +46,15 @@ class Application(pygubu.TkApplication):
     button_predefined_message: Optional[tk.Button]
     ws: Optional[websocket.WebSocketApp]
 
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.wssurl = None
+    def __init__(self, master=None, uri=None,
+                 cafile=None,
+                 keyfile=None,
+                 no_check_hostname=None,
+                 read_ui_file=None,
+                 ):
+        self.ws_url = uri
         self.ws = None
+        super().__init__(master)
 
     def _create_ui(self):
         # 1: Create a builder
@@ -56,7 +66,7 @@ class Application(pygubu.TkApplication):
         # 3: Create the widget using a master as parent
         self.mainwindow = builder.get_object('base_frame', self.master)
         # fetch other elements we might need
-        self.wss_url = builder.get_object('wssurl')
+        self.wss_url_input = builder.get_object('wssurl')
         self.send_button = builder.get_object('send_button')
         self.connect_button = builder.get_object('connect_button')
         self.connection_status = builder.get_object('connection_status')
@@ -81,6 +91,9 @@ class Application(pygubu.TkApplication):
         """
         for key in PREDEFINED_MESSAGE_MAP.keys():
             self.predefined_messages.insert(tk.END, key)
+        if self.ws_url:
+            self.wss_url_input.delete(0, tk.END)
+            self.wss_url_input.insert(0, self.ws_url)
 
     def on_connect_clicked(self):
         """
@@ -94,7 +107,7 @@ class Application(pygubu.TkApplication):
             self.reset_state_after_socket_close()
             return
 
-        url = self.wss_url.get()
+        url = self.wss_url_input.get()
         try:
             validate_url(url)
         except URLParseException as e:
@@ -109,7 +122,7 @@ class Application(pygubu.TkApplication):
         logger.debug("on_connect_clicked")
         self.master.focus()
         self.connect_button.config(text="disconnect")
-        self.connection_status.config(text="connected")
+        self.connection_status.config(text="connected", bg="green")
         self.send_button.config(state=tk.ACTIVE)
 
     def run_ws(self):
@@ -118,8 +131,11 @@ class Application(pygubu.TkApplication):
         :return: void
         """
         import threading
-        self.ws_thread = threading.Thread(target=self.ws.run_forever)
+        self.ws_thread = threading.Thread(target=self.run_ws_forever)
         self.ws_thread.start()
+
+    def run_ws_forever(self):
+        return self.ws.run_forever(ping_interval=15, ping_timeout=10)
 
     def on_send_button_clicked(self):
         """
@@ -175,6 +191,7 @@ class Application(pygubu.TkApplication):
         :return:
         """
         self.write_to_text_box('connection closed')
+        self.reset_state_after_socket_close()
 
     def on_error_socket(self, e):
         """
@@ -199,7 +216,7 @@ class Application(pygubu.TkApplication):
         """
         self.ws.close()
         self.connect_button.config(text="connect")
-        self.connection_status.config(text="not connected")
+        self.connection_status.config(text="not connected", bg="red")
         self.send_button.config(state=tk.DISABLED)
         self.ws = None
         self.ws_thread.join(1)
@@ -207,11 +224,10 @@ class Application(pygubu.TkApplication):
 
 websocket.enableTrace(True)
 
-
 if __name__ == '__main__':
     # parse command line arguments
     parser = argparse.ArgumentParser(description="Websocket OCPP GUI")
-    parser.add_argument("--uri", help="websocket server uri will be set to client if set")
+    parser.add_argument("--uri", nargs="?", help="websocket server uri will be set to client if set")
     parser.add_argument("--cafile", nargs="?", help="SSL CA file")
     parser.add_argument("--certfile", nargs="?", help="SSL client certificate file")
     parser.add_argument("--keyfile", nargs="?", help="SSL private key file")
@@ -225,7 +241,13 @@ if __name__ == '__main__':
     #     print("No ui def files defined")
     #     exit(1)
 
-    app = Application(root)
+    app = Application(root,
+                      uri=args.uri,
+                      cafile=args.cafile,
+                      keyfile=args.keyfile,
+                      no_check_hostname=args.no_check_hostname,
+                      read_ui_file=args.read_ui_file,
+                      )
 
     logger.debug("Start application now")
     root.mainloop()

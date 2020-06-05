@@ -7,7 +7,11 @@ python run.py
 ```
 
 ### Development
-There is a Pipfile in the root of the project which contains all the necessary dependencies. I've used wss://echo.websocket.org for testing, this will just return you the request sent
+There is a poetry installation in the root of the project which contains all the necessary dependencies. I've used wss://echo.websocket.org for testing, this will just return you the request sent
+You probably also need tkinter installed
+```bash
+apt-get install python3-tk
+``` 
 
 #### TODOs:
 * Fix scrolling for log box (text box where the sent and received messages will be shown)
